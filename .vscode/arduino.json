@@ -3,5 +3,5 @@
     "board": "arduino:avr:nano",
     "programmer": "arduino:arduinoisp",
     "port": "COM5",
-    "sketch": "Knight-Rider-Simplified\\Knight-Rider-Simplified.ino"
+    "sketch": "Knight-Rider-Mic\\Knight-Rider-Mic.ino"
 }
