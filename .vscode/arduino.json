@@ -2,5 +2,6 @@
     "configuration": "cpu=atmega328old",
     "board": "arduino:avr:nano",
     "programmer": "arduino:arduinoisp",
-    "port": "COM1"
+    "port": "COM5",
+    "sketch": "Knight-Rider-Simplified\\Knight-Rider-Simplified.ino"
 }

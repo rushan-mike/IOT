@@ -26,7 +26,7 @@ void setup() {
 void loop() {
 
   int pin = 1;
-  int time = 10;
+  int time = 100;
 
   while (true){
     
@@ -59,6 +59,8 @@ void loop() {
   // delay(10);
   // digitalWrite(12, HIGH);
   
+  pin = 1;
+
   while (true){
     
     delay(time);
@@ -126,6 +128,8 @@ void loop() {
   // delay(10);
   // digitalWrite(2, HIGH);
   
+  pin = 13;
+
   while (true){
     
     delay(time);
