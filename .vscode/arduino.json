@@ -3,5 +3,5 @@
     "board": "arduino:avr:nano",
     "programmer": "arduino:arduinoisp",
     "port": "COM5",
-    "sketch": "Christmas-Melody\\Christmas-Melody.ino"
+    "sketch": "Star-Wars\\Star-Wars.ino"
 }
