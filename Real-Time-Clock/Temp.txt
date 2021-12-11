@@ -1,0 +1,49 @@
+/*
+Save temperature in SD/microSD card every hour with DS3231 + SD/microSD module + Arduino
+modified on 15 Apr 2019
+by Mohammadreza Akbari @ Electropeak
+https://electropeak.com/learn/
+*/
+#include <SPI.h>
+#include <SD.h>
+#include <Wire.h>
+#include "Sodaq_DS3231.h"
+
+File myFile;
+DateTime now;
+int newHour = 0;
+int oldHour = 0;
+void save_temperature() {
+myFile = SD.open("temp.txt", FILE_WRITE);
+now = rtc.now();
+myFile.print(now.hour());
+myFile.print(":");
+myFile.print(now.minute());
+rtc.convertTemperature(); //convert current temperature into registers
+myFile.print(",");
+myFile.println(rtc.getTemperature()); //read registers and save temperature on deg C
+myFile.close();
+}
+void setup ()
+{
+Wire.begin();
+rtc.begin();
+Serial.begin(9600);
+Serial.print("Initializing SD card...");
+if (!SD.begin(10)) {
+Serial.println("initialization failed!");
+while (1);
+}
+Serial.println("initialization done.");
+now = rtc.now();
+oldHour = now.hour();
+}
+void loop ()
+{
+now = rtc.now();
+newHour = now.hour();
+if (oldHour != newHour) {
+save_temperature();
+oldHour = newHour;
+}
+}

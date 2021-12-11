@@ -1,0 +1,47 @@
+#include <SPI.h>
+#include <SD.h>
+
+File myFile;
+char myPath[] = "data.txt";
+
+void setup() {
+
+    Serial.begin(9600);
+
+    while (!Serial) {
+        ;
+    }
+
+    Serial.println("Initializing SD card...");
+
+    if (!SD.begin(10)) {
+        Serial.println("Initialization failed!");
+        while (1);
+    }
+
+    Serial.println("Initialization done.");
+
+    myFile = SD.open(myPath, FILE_READ);
+
+    if (myFile) {
+        Serial.print("Reading from ");
+        Serial.print(myPath);
+        Serial.println("...");
+
+        while (myFile.available()) {
+            Serial.write(myFile.read());
+        }
+
+        myFile.close();
+    } 
+    
+    else {
+        Serial.print("Error opening ");
+        Serial.println(myPath);
+    }
+}
+
+
+void loop() {
+// nothing happens after setup
+}
