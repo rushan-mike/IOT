@@ -146,7 +146,7 @@ void setup(){
   
   lcd.noBacklight();
 
-    int pin = 2;
+  int pin = 2;
 
   while (true){
 
