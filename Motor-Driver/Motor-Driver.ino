@@ -1,8 +1,8 @@
 int motor1pin1 = 4;
 int motor1pin2 = 14;
 
-int motor2pin1 = 7;
-int motor2pin2 = 8;
+int motor2pin1 = 8;
+int motor2pin2 = 7;
 
 void setup() {
   // put your setup code here, to run once:

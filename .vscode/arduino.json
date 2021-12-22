@@ -3,5 +3,5 @@
     "board": "arduino:avr:nano",
     "programmer": "arduino:arduinoisp",
     "port": "COM5",
-    "sketch": "Ultrasonic-Distance\\Ultrasonic-Distance.ino"
+    "sketch": "Motor-Driver-Smooth\\Motor-Driver-Smooth.ino"
 }

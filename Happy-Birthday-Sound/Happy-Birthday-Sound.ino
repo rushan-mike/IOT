@@ -1,4 +1,5 @@
 #include "pitches.h"
+#define melodyPin 5
 
 // notes in the melody:
 int melody[] = {
@@ -32,9 +33,9 @@ void setup() {
 
     //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
 
-    int noteDuration = 1130/noteDurations[thisNote];
+    int noteDuration = 1430/noteDurations[thisNote];
 
-    tone (3, melody[thisNote], noteDuration);
+    tone (melodyPin, melody[thisNote], noteDuration);
 
      // to distinguish the notes, set a minimum time between them.
 
@@ -46,7 +47,7 @@ void setup() {
 
     // stop the tone playing:
 
-    noTone(3);
+    noTone(melodyPin);
     
   }
 }
