@@ -18,46 +18,35 @@ void setup() {
 
 void loop() {  
 
-  stepUpFor(120, 200, 100);
-  stepDownFor(200, 120, 100);
+  int stepLength = 5;
+  int duration = 50;
+  int stepMax = 200;
+  
+  stepUp(100, stepMax, stepLength, duration, true);
+  stepDown(stepMax, 50, stepLength, duration, true);
   delay(1000);
   
-  stepUpBack(120, 200, 100);
-  stepDownBack(200, 120, 100);
+  stepUp(100, stepMax, stepLength, duration, false);
+  stepDown(stepMax, 50, stepLength, duration, false);
   delay(1000);
 
 }
 
-void stepUpFor(int stepMin, int stepMax, int duration){
-  for(int i = stepMin; i <= stepMax; i=i+10)
+void stepUp(int stepMin, int stepMax, int stepLength, int duration, bool direction){
+  for(int i = stepMin; i <= stepMax; i=i+stepLength)
     {
       speedCon(i);
-      forwardCon(duration);
+      if (direction == true) forwardCon(duration);
+      if (direction == false) backwardCon(duration);
     }
 }
 
-void stepDownFor(int stepMax, int stepMin, int duration){
-  for(int i = stepMax; i >= stepMin; i=i-10)
+void stepDown(int stepMax, int stepMin, int stepLength, int duration, bool direction){
+  for(int i = stepMax; i >= stepMin; i=i-stepLength)
     {
       speedCon(i);
-      forwardCon(duration);
-    }
-  stopCon();
-}
-
-void stepUpBack(int stepMin, int stepMax, int duration){
-  for(int i = stepMin; i <= stepMax; i=i+10)
-    {
-      speedCon(i);
-      backwardCon(duration);
-    }
-}
-
-void stepDownBack(int stepMax, int stepMin, int duration){
-  for(int i = stepMax; i >= stepMin; i=i-10)
-    {
-      speedCon(i);
-      backwardCon(duration);
+      if (direction == true) forwardCon(duration);
+      if (direction == false) backwardCon(duration);
     }
   stopCon();
 }
@@ -81,6 +70,34 @@ void backwardCon(int duration){
   digitalWrite(motor1pin1, LOW);
   digitalWrite(motor1pin2, HIGH);
 
+  digitalWrite(motor2pin1, LOW);
+  digitalWrite(motor2pin2, HIGH);
+
+  delay(duration);  
+}
+
+void forwardLeftCon(int duration){
+  digitalWrite(motor1pin1, HIGH);
+  digitalWrite(motor1pin2, LOW);
+
+  delay(duration);
+}
+
+void forwardRightCon(int duration){
+  digitalWrite(motor2pin1, HIGH);
+  digitalWrite(motor2pin2, LOW);
+
+  delay(duration);
+}
+
+void backwardLeftCon(int duration){
+  digitalWrite(motor1pin1, LOW);
+  digitalWrite(motor1pin2, HIGH);
+
+  delay(duration);  
+}
+
+void backwardRightCon(int duration){
   digitalWrite(motor2pin1, LOW);
   digitalWrite(motor2pin2, HIGH);
 
