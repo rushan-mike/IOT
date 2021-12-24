@@ -78,7 +78,7 @@ int wish_tempo[] = {
 int number = 0;
 
 void setup(void) {
-  Serial.begin(9600);
+  Serial.begin(57600);
   Serial.print("Welcome");
   Serial.println();
   Serial.println();
