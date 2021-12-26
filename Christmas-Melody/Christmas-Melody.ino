@@ -1,5 +1,5 @@
 #include "pitches.h"
-#define melodyPin 3
+#define melodyPin 5
 
 // Jingle Bells
 
@@ -75,36 +75,40 @@ int wish_tempo[] = {
   2
 };
 
-int number = 0;
+int intNumber = 0;
+String stringNumber = "0";
 
 void setup(void) {
   Serial.begin(57600);
-  Serial.print("Welcome");
-  Serial.println();
+  Serial.println("Welcome");
   Serial.println();
 }
 
 void loop() {
 
   if (Serial.available() > 0) {
-    number = Serial.readString().toInt();
 
-    if (number == 0) {
+    stringNumber = Serial.readString();
+    Serial.println(stringNumber);
+    Serial.println();
+    intNumber = stringNumber.toInt();
+
+    if (intNumber == 0) {
         
         Serial.print("----- Exit -----");
         Serial.println();
         Serial.end();
     }
 
-    Serial.print("Playing song : " + String(number));
+    Serial.print("Playing song : " + String(intNumber));
     Serial.println();
     Serial.println();
     
   }
   
-  if (number == 1) sing(1); 
-  if (number == 2) sing(2);
-  if (number == 3) sing(3);
+  if (intNumber == 1) sing(1); 
+  if (intNumber == 2) sing(2);
+  if (intNumber == 3) sing(3);
 }
 
 int song = 0;
@@ -125,7 +129,7 @@ void sing(int s) {
       noTone(melodyPin);
     //   buzz(melodyPin, 0, noteDuration);
     }
-    number = 0;
+    intNumber = 0;
   }
 
   if (song == 2) {
@@ -141,7 +145,7 @@ void sing(int s) {
       noTone(melodyPin);
     //   buzz(melodyPin, 0, noteDuration);
     }
-    number = 0;
+    intNumber = 0;
   }
 
   if (song == 3) {
@@ -157,7 +161,7 @@ void sing(int s) {
       noTone(melodyPin);
     //   buzz(melodyPin, 0, noteDuration);
     }
-    number = 0;
+    intNumber = 0;
   } 
 }
 

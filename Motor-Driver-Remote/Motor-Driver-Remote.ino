@@ -12,8 +12,8 @@ int motor2pin1 = 8;
 int motor2pin2 = 7;
 int motor2pin3 = 9;
 
-int RCinput = 0;
-int RCprevious = 0;
+String RCinput = "0";
+String RCprevious = "0";
 
 void setup() {
   pinMode(motor1pin1, OUTPUT);
@@ -25,8 +25,8 @@ void setup() {
   pinMode(motor2pin3, OUTPUT);
 
   Serial.begin(57600);
-  pinMode(trigPin,OUTPUT);
-  pinMode(echoPin,INPUT);
+  // pinMode(trigPin,OUTPUT);
+  // pinMode(echoPin,INPUT);
 }
 
 void loop() {  
@@ -53,48 +53,47 @@ void loop() {
 
   // if (sonicDistance > 10){
     if (Serial.available() > 0) {
-      RCinput = Serial.readString().toInt();
+      RCinput = Serial.readString();
     }
     else{
-      RCinput = 0;
+      RCinput = "0";
     }
 
     if (RCinput == RCprevious){
-      if (RCinput == 1){
+      if (RCinput == "1"){
         stepUp(stepMax, stepMax, stepSize, duration, true, false, true);
-        RCprevious = 1;
+        RCprevious = "1";
       }
 
-      else if (RCinput == 2){
+      else if (RCinput == "2"){
         stepUp(stepMax, stepMax, stepSize, duration, false, false, true);
-        RCprevious = 2;
+        RCprevious = "2";
       }
     }
 
     else{
 
-      if (RCprevious == 1){
+      if (RCprevious == "1"){
         stepDown(stepMax, 50, stepSize, duration, true, false, true);
-        RCprevious = 0;
+        RCprevious = "0";
       }
 
-      else if (RCprevious == 2){
+      else if (RCprevious == "2"){
         stepDown(stepMax, 50, stepSize, duration, false, false, true);
-        RCprevious = 0;
+        RCprevious = "0";
       }
       
-      if (RCinput == 1){
+      if (RCinput == "1"){
         stepUp(100, stepMax, stepSize, duration, true, false, true);
-        RCprevious = 1;
+        RCprevious = "1";
       }
 
-      else if (RCinput == 2){
+      else if (RCinput == "2"){
         stepUp(100, stepMax, stepSize, duration, false, false, true);
-        RCprevious = 2;
+        RCprevious = "2";
       }
     }
   // }
-
   // else{
   //   stopCon();
   // }
@@ -103,16 +102,24 @@ void loop() {
 void stepUp(int stepMin, int stepMax, int stepSize, int duration, bool direction, bool heading, bool yaw){
   for(int i = stepMin; i <= stepMax; i=i+stepSize){
     speedCon(i);
-    if (direction == true) forwardCon(duration);
-    if (direction == false) backwardCon(duration);
+    if (direction == true && heading == false) forwardCon(duration);
+    if (direction == false && heading == false) backwardCon(duration);
+    if (direction == true && heading == true && yaw == true) forwardRightCon(duration);
+    if (direction == true && heading == true && yaw == false) forwardLeftCon(duration);
+    if (direction == false && heading == true && yaw == true) backwardRightCon(duration);
+    if (direction == false && heading == true && yaw == false) backwardLeftCon(duration);
   }
 }
 
 void stepDown(int stepMax, int stepMin, int stepSize, int duration, bool direction, bool heading, bool yaw){
   for(int i = stepMax; i >= stepMin; i=i-stepSize){
     speedCon(i);
-    if (direction == true) forwardCon(duration);
-    if (direction == false) backwardCon(duration);
+    if (direction == true && heading == false) forwardCon(duration);
+    if (direction == false && heading == false) backwardCon(duration);
+    if (direction == true && heading == true && yaw == true) forwardRightCon(duration);
+    if (direction == true && heading == true && yaw == false) forwardLeftCon(duration);
+    if (direction == false && heading == true && yaw == true) backwardRightCon(duration);
+    if (direction == false && heading == true && yaw == false) backwardLeftCon(duration);
   }
   stopCon();
 }

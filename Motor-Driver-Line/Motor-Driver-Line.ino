@@ -1,3 +1,13 @@
+#define trigPin 3
+#define echoPin 2
+
+#define IRPin1 15
+#define IRPin2 16
+#define IRPin3 17
+
+long sonicDuration;
+int sonicDistance;
+
 int motor1pin1 = 4;
 int motor1pin2 = 14;
 int motor1pin3 = 6;
@@ -5,6 +15,9 @@ int motor1pin3 = 6;
 int motor2pin1 = 8;
 int motor2pin2 = 7;
 int motor2pin3 = 9;
+
+String RCinput = "0";
+String RCprevious = "0";
 
 void setup() {
   pinMode(motor1pin1, OUTPUT);
@@ -14,10 +27,20 @@ void setup() {
   pinMode(motor2pin1, OUTPUT);
   pinMode(motor2pin2, OUTPUT);
   pinMode(motor2pin3, OUTPUT);
+
+  Serial.begin(57600);
+  // pinMode(trigPin,OUTPUT);
+  // pinMode(echoPin,INPUT);
+
+  pinMode(IRPin1,INPUT);
+  pinMode(IRPin2,INPUT);
+  pinMode(IRPin3,INPUT);
+
 }
 
-void loop() {  
+void loop() {
 
+  int stopDistance = 20;
   int stepSize = 5;
   int duration = 20;
   int stepMax = 255;
@@ -26,7 +49,7 @@ void loop() {
   // direction : true --> forward
   // heading : true --> turn
   // yaw: true --> right
-  
+
   stepUp(100, stepMax, stepSize, duration, true, false, true);
   delay(1000);
   stepDown(stepMax, 50, stepSize, duration, true, false, true);
@@ -37,6 +60,26 @@ void loop() {
   stepDown(stepMax, 50, stepSize, duration, false, false, true);
   delay(1000);
 
+}
+
+bool sonicCheck(int stopDistance){
+  digitalWrite(trigPin,LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin,HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin,LOW);
+  
+  sonicDuration=pulseIn(echoPin,HIGH);
+  sonicDistance=(sonicDuration*0.034/2);
+  Serial.println(sonicDistance);
+  // delay(1000);
+
+  if (sonicDistance <= stopDistance){
+    return true;
+  }
+  else{
+    return false;
+  }
 }
 
 void stepUp(int stepMin, int stepMax, int stepSize, int duration, bool direction, bool heading, bool yaw){

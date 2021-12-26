@@ -3,5 +3,5 @@
     "board": "arduino:avr:nano",
     "programmer": "arduino:arduinoisp",
     "port": "COM5",
-    "sketch": "Motor-Driver-Remote\\Motor-Driver-Remote.ino"
+    "sketch": "Motor-Driver-Line\\Motor-Driver-Line.ino"
 }
