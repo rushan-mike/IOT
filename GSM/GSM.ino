@@ -26,6 +26,17 @@ void setup()
   updateSerial();
   mySerial.println("AT+COPS=?"); //Return the list of operators present in the network
   updateSerial();
+  // mySerial.println("AT+CREG=?");
+  // updateSerial();
+  // mySerial.println("AT+CREG=1");
+  // updateSerial();
+  // mySerial.println("AT+COPS=0");
+  // updateSerial();
+  // mySerial.println("AT+COPS=1,2,\"41308\"");
+  // updateSerial();
+  // mySerial.println("AT+COPS=4,1,\"Hutch\"");
+  // updateSerial();
+  
 }
 
 void loop()

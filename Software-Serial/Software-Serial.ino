@@ -1,11 +1,13 @@
 #include <SoftwareSerial.h>
 
-SoftwareSerial mySerial(7, 8); // RX, TX
+// SoftwareSerial mySerial(7, 8); // RX, TX
+SoftwareSerial mySerial(3, 2); // RX, TX
 
 void setup()
 {
   // Open serial communications and wait for port to open:
-  Serial.begin(9600);
+  // Serial.begin(9600);
+  Serial.begin(38400);
   while (!Serial) {
     ; // wait for serial port to connect. Needed for Native USB only
   }
@@ -13,7 +15,8 @@ void setup()
   Serial.println("TEST");
   
   // set the data rate for the SoftwareSerial port
-  mySerial.begin(38400);
+  // mySerial.begin(38400); // Bluetooth
+  mySerial.begin(9600);
 
   //Bluetooth test command
   mySerial.println("AT");
