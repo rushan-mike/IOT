@@ -98,7 +98,7 @@ void loop(){
     output5State = "on";
     digitalWrite(output5, HIGH);
   }
-  else if (sensor2Value < 300 and output5offState == true)
+  else if (sensor2Value <= 300 and output5offState == true)
   {
     output5offState = false;
   }
@@ -113,7 +113,7 @@ void loop(){
     output4State = "on";
     digitalWrite(output4, HIGH);
   }
-  else if (sensor2Value < 300 and output4offState == true)
+  else if (sensor2Value <= 300 and output4offState == true)
   {
     output4offState = false;
   }
@@ -151,6 +151,7 @@ void loop(){
             if (header.indexOf("GET /5/on") >= 0) {
               Serial.println("GPIO 5 on");
               output5State = "on";
+              output5offState = false;
               digitalWrite(output5, HIGH);
             } else if (header.indexOf("GET /5/off") >= 0) {
               Serial.println("GPIO 5 off");
@@ -160,6 +161,7 @@ void loop(){
             } else if (header.indexOf("GET /4/on") >= 0) {
               Serial.println("GPIO 4 on");
               output4State = "on";
+              output4offState = false;
               digitalWrite(output4, HIGH);
             } else if (header.indexOf("GET /4/off") >= 0) {
               Serial.println("GPIO 4 off");
