@@ -17,6 +17,8 @@ String header;
 // Auxiliar variables to store the current output state
 String output5State = "off";
 String output4State = "off";
+bool output5offState = false;
+bool output4offState = false;
 
 // Assign output variables to GPIO pins
 const int output5 = 5;
@@ -91,7 +93,7 @@ void loop(){
   sensor1Value = analogRead(MQ2pin1);
   sensor2Value = analogRead(MQ2pin2);
 
-  if(sensor1Value > 300)
+  if(sensor1Value > 300 and output5offState == false)
   {
     output5State = "on";
     digitalWrite(output5, HIGH);
@@ -102,7 +104,7 @@ void loop(){
     digitalWrite(output5, LOW);
   }
 
-  if(sensor2Value > 300)
+  if(sensor2Value > 300 and output4offState == false)
   {
     output4State = "on";
     digitalWrite(output4, HIGH);
@@ -145,6 +147,7 @@ void loop(){
             } else if (header.indexOf("GET /5/off") >= 0) {
               Serial.println("GPIO 5 off");
               output5State = "off";
+              output5offState = true;
               digitalWrite(output5, LOW);
             } else if (header.indexOf("GET /4/on") >= 0) {
               Serial.println("GPIO 4 on");
@@ -153,13 +156,14 @@ void loop(){
             } else if (header.indexOf("GET /4/off") >= 0) {
               Serial.println("GPIO 4 off");
               output4State = "off";
+              output4offState = true;
               digitalWrite(output4, LOW);
             }
             
             // Display the HTML web page
             client.println("<!DOCTYPE html><html>");
             client.println("<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
-            client.println("<meta http-equiv=\"refresh\" content=\"5\">");
+            client.println("<meta http-equiv=\"refresh\" content=\"5; url=/\">");
             client.println("<link rel=\"icon\" href=\"data:,\">");
             // CSS to style the on/off buttons 
             // Feel free to change the background-color and font-size attributes to fit your preferences
