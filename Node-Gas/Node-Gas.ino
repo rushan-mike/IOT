@@ -98,7 +98,7 @@ void loop(){
     output5State = "on";
     digitalWrite(output5, HIGH);
   }
-  else if (sensor2Value < 300)
+  else if (sensor2Value < 300 and output5offState == true)
   {
     output5offState = false;
   }
@@ -113,7 +113,7 @@ void loop(){
     output4State = "on";
     digitalWrite(output4, HIGH);
   }
-  else if (sensor2Value < 300)
+  else if (sensor2Value < 300 and output4offState == true)
   {
     output4offState = false;
   }
@@ -181,10 +181,10 @@ void loop(){
             client.println(".button2 {background-color: #77878A;}</style></head>");
             
             // Web Page Heading
-            client.println("<body><h1>ESP8266 Web Server</h1>");
+            client.println("<body><h1>Gas Sensor Control Panel</h1>");
             
             // Display current state, and ON/OFF buttons for GPIO 5  
-            client.println("<p>GPIO 5 - State " + output5State + "</p>");
+            client.println("<p>Sensor 1 - State " + output5State + "</p>");
             // If the output5State is off, it displays the ON button       
             if (output5State=="off") {
               client.println("<p><a href=\"/5/on\"><button class=\"button\">ON</button></a></p>");
@@ -193,7 +193,7 @@ void loop(){
             } 
                
             // Display current state, and ON/OFF buttons for GPIO 4  
-            client.println("<p>GPIO 4 - State " + output4State + "</p>");
+            client.println("<p>Sensor 2 - State " + output4State + "</p>");
             // If the output4State is off, it displays the ON button       
             if (output4State=="off") {
               client.println("<p><a href=\"/4/on\"><button class=\"button\">ON</button></a></p>");
