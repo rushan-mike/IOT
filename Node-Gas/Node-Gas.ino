@@ -98,10 +98,6 @@ void loop(){
     output5State = "on";
     digitalWrite(output5, HIGH);
   }
-  else if (sensor2Value <= 300 and output5offState == true)
-  {
-    output5offState = false;
-  }
   else
   {
     output5State = "off";
@@ -112,10 +108,6 @@ void loop(){
   {
     output4State = "on";
     digitalWrite(output4, HIGH);
-  }
-  else if (sensor2Value <= 300 and output4offState == true)
-  {
-    output4offState = false;
   }
   else
   {
