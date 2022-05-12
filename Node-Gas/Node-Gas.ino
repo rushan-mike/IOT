@@ -24,6 +24,10 @@ const int output4 = 4;
 const int MQ2pin1 = 0;
 const int MQ2pin2 = 2;
 
+//variables to store sensor value
+float sensor1Value;  
+float sensor2Value;
+
 // Current time
 unsigned long currentTime = millis();
 // Previous time
