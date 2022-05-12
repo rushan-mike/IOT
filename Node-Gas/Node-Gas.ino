@@ -21,8 +21,8 @@ String output4State = "off";
 // Assign output variables to GPIO pins
 const int output5 = 5;
 const int output4 = 4;
-const int MQ2pin1 = 0;
-const int MQ2pin2 = 2;
+const int MQ2pin1 = 14;
+const int MQ2pin2 = 12;
 
 //variables to store sensor value
 float sensor1Value;  
@@ -91,11 +91,27 @@ void loop(){
   sensor1Value = analogRead(MQ2pin1);
   sensor2Value = analogRead(MQ2pin2);
 
-  if(sensor1Value > 300) output5State = "on";
-  else output5State = "off";
+  if(sensor1Value > 300)
+  {
+    output5State = "on";
+    digitalWrite(output5, HIGH);
+  }
+  else
+  {
+    output5State = "off";
+    digitalWrite(output5, LOW);
+  }
 
-  if(sensor2Value > 300) output4State = "on";
-  else output4State = "off";
+  if(sensor2Value > 300)
+  {
+    output4State = "on";
+    digitalWrite(output4, HIGH);
+  }
+  else
+  {
+    output4State = "off";
+    digitalWrite(output4, LOW);
+  }
 
   WiFiClient client = server.available();   // Listen for incoming clients
 
