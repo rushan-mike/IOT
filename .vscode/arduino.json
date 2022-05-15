@@ -3,5 +3,5 @@
     "board": "arduino:avr:nano",
     "programmer": "arduino:arduinoisp",
     "port": "COM3",
-    "sketch": "Gas-Sensor\\Gas-Sensor.ino"
+    "sketch": "Software-Serial\\Software-Serial.ino"
 }
