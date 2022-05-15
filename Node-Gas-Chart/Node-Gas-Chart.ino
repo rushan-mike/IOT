@@ -106,7 +106,7 @@ void setup() {
     request->send_P(200, "text/plain", String(sensor1Value).c_str());
   });
   server2.on("/sensor2", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send_P(200, "text/plain", String(sensor1Value).c_str());
+    request->send_P(200, "text/plain", String(sensor2Value).c_str());
   });
 
   // Start server
