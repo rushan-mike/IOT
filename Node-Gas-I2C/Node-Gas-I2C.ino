@@ -127,7 +127,7 @@ void setup() {
 
 void loop(){
 
-  for (MQ2pin = 1; MQ2pin <= 2; i++) {
+  for (MQ2pin = 1; MQ2pin <= 2; MQ2pin++) {
     Wire.beginTransmission(8); // transmit to device #8
     Wire.write(MQ2pin);        // sends one byte  
     Wire.endTransmission();    // stop transmitting
