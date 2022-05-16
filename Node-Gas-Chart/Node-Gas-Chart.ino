@@ -30,10 +30,10 @@ bool output5offState = false;
 bool output4offState = false;
 
 // Assign output variables to GPIO pins
-const int output5 = 14;
-const int output4 = 12;
-const int MQ2pin1 = 5;
-const int MQ2pin2 = 4;
+const int output5 = 5;
+const int output4 = 4;
+const int MQ2pin1 = 14;
+const int MQ2pin2 = 12;
 
 //variables to store sensor value
 float sensor1Value;  

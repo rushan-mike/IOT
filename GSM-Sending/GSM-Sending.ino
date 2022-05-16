@@ -21,7 +21,7 @@ void setup()
   updateSerial();
   mySerial.println("AT+CMGS=\"+94779827847\"");//change ZZ with country code and xxxxxxxxxxx with phone number to sms
   updateSerial();
-  mySerial.print("Last Minute Engineers | lastminuteengineers.com"); //text content
+  mySerial.print("Michael"); //text content
   updateSerial();
   mySerial.write(26);
 }
