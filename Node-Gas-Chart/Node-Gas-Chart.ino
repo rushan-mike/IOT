@@ -30,10 +30,10 @@ bool output5offState = false;
 bool output4offState = false;
 
 // Assign output variables to GPIO pins
-const int output5 = 5;
-const int output4 = 4;
-const int MQ2pin1 = 14;
-const int MQ2pin2 = 12;
+const int output5 = 14;
+const int output4 = 12;
+const int MQ2pin1 = 5;
+const int MQ2pin2 = 4;
 
 //variables to store sensor value
 float sensor1Value;  
@@ -72,10 +72,6 @@ void setup() {
   // Set outputs to LOW
   digitalWrite(output5, LOW);
   digitalWrite(output4, LOW);
-  // Initialize the input variables as inputs
-  pinMode(MQ2pin1, INPUT);
-  pinMode(MQ2pin2, INPUT);
-
 
   // Initialize SPIFFS
   if(!SPIFFS.begin()){
@@ -110,7 +106,7 @@ void setup() {
     request->send_P(200, "text/plain", String(sensor1Value).c_str());
   });
   server2.on("/sensor2", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send_P(200, "text/plain", String(sensor1Value).c_str());
+    request->send_P(200, "text/plain", String(sensor2Value).c_str());
   });
 
   // Start server
@@ -148,19 +144,13 @@ void loop(){
     digitalWrite(output4, LOW);
   }
 
-  Serial.print("Sensor1 Value: ");
-  Serial.print(sensor1Value);
-  Serial.print("    Sensor2 Value: ");
-  Serial.print(sensor2Value);
-  Serial.println("");
-
-  // Firebase.setInt(firebaseData, "/value/G1", sensor1Value);
-  // Firebase.setInt(firebaseData, "/value/G2", sensor2Value);
+  Firebase.setInt(firebaseData, "/value/G1", sensor1Value);
+  Firebase.setInt(firebaseData, "/value/G2", sensor2Value);
 
   WiFiClient client = server.available();   // Listen for incoming clients
 
   if (client) {                             // If a new client connects,
-    // Serial.println("New Client.");          // print a message out in the serial port
+    Serial.println("New Client.");          // print a message out in the serial port
     String currentLine = "";                // make a String to hold incoming data from the client
     currentTime = millis();
     previousTime = currentTime;
@@ -290,8 +280,7 @@ void loop(){
     header = "";
     // Close the connection
     client.stop();
-    // Serial.println("Client disconnected.");
-    // Serial.println("");
+    Serial.println("Client disconnected.");
+    Serial.println("");
   }
-  delay(500);
 }

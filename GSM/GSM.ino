@@ -20,12 +20,12 @@ void setup()
   updateSerial();
   mySerial.println("AT+CCID"); //Read SIM information to confirm whether the SIM is plugged
   updateSerial();
-  mySerial.println("AT+CFUN = 0");
-  updateSerial();
-  delay(5000);
-  mySerial.println("AT+CFUN = 1");
-  updateSerial();
-  delay(1000);
+  // mySerial.println("AT+CFUN = 0");
+  // updateSerial();
+  // delay(5000);
+  // mySerial.println("AT+CFUN = 1");
+  // updateSerial();
+  // delay(1000);
   mySerial.println("AT+CREG?"); //Check whether it has registered in the network
   updateSerial();
   mySerial.println("AT+COPS?"); //Check that you’re connected to the network
