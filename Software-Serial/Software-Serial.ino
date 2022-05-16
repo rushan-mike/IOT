@@ -24,12 +24,18 @@ void setup()
 
 void loop() // run over and over
 {
-  if (mySerial.available()){
-    Serial.println(mySerial.readString());
-  };
-  
-  if (Serial.available()){
-    mySerial.println(Serial.readString());
-    Serial.println();
-  };
+  updateSerial();
+}
+
+void updateSerial()
+{
+  delay(500);
+  while (Serial.available()) 
+  {
+    mySerial.write(Serial.read());//Forward what Serial received to Software Serial Port
+  }
+  while(mySerial.available()) 
+  {
+    Serial.write(mySerial.read());//Forward what Software Serial received to Serial Port
+  }
 }
