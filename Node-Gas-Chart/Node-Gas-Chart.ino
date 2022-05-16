@@ -72,6 +72,10 @@ void setup() {
   // Set outputs to LOW
   digitalWrite(output5, LOW);
   digitalWrite(output4, LOW);
+  // Initialize the input variables as inputs
+  pinMode(MQ2pin1, INPUT);
+  pinMode(MQ2pin2, INPUT);
+
 
   // Initialize SPIFFS
   if(!SPIFFS.begin()){
@@ -106,7 +110,7 @@ void setup() {
     request->send_P(200, "text/plain", String(sensor1Value).c_str());
   });
   server2.on("/sensor2", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send_P(200, "text/plain", String(sensor2Value).c_str());
+    request->send_P(200, "text/plain", String(sensor1Value).c_str());
   });
 
   // Start server
@@ -144,10 +148,19 @@ void loop(){
     digitalWrite(output4, LOW);
   }
 
+  Serial.print("Sensor1 Value: ");
+  Serial.print(sensor1Value);
+  Serial.print("    Sensor2 Value: ");
+  Serial.print(sensor2Value);
+  Serial.println("");
+
+  // Firebase.setInt(firebaseData, "/value/G1", sensor1Value);
+  // Firebase.setInt(firebaseData, "/value/G2", sensor2Value);
+
   WiFiClient client = server.available();   // Listen for incoming clients
 
   if (client) {                             // If a new client connects,
-    Serial.println("New Client.");          // print a message out in the serial port
+    // Serial.println("New Client.");          // print a message out in the serial port
     String currentLine = "";                // make a String to hold incoming data from the client
     currentTime = millis();
     previousTime = currentTime;
@@ -229,39 +242,39 @@ void loop(){
             client.println();
 
             //update firebase values
-            if (Firebase.setString(firebaseData, "/sensor/G1", output5State))
-            {
-              Serial.println("PASSED");
-              Serial.println("PATH: " + firebaseData.dataPath());
-              Serial.println("TYPE: " + firebaseData.dataType());
-              Serial.println("ETag: " + firebaseData.ETag());
-              Serial.println("------------------------------------");
-              Serial.println();
-            }
-            else
-            {
-              Serial.println("FAILED");
-              Serial.println("REASON: " + firebaseData.errorReason());
-              Serial.println("------------------------------------");
-              Serial.println();
-            }
+            // if (Firebase.setString(firebaseData, "/sensor/G1", output5State))
+            // {
+            //   Serial.println("PASSED");
+            //   Serial.println("PATH: " + firebaseData.dataPath());
+            //   Serial.println("TYPE: " + firebaseData.dataType());
+            //   Serial.println("ETag: " + firebaseData.ETag());
+            //   Serial.println("------------------------------------");
+            //   Serial.println();
+            // }
+            // else
+            // {
+            //   Serial.println("FAILED");
+            //   Serial.println("REASON: " + firebaseData.errorReason());
+            //   Serial.println("------------------------------------");
+            //   Serial.println();
+            // }
           
-            if (Firebase.setString(firebaseData, "/sensor/G2", output4State))
-            {
-              Serial.println("PASSED");
-              Serial.println("PATH: " + firebaseData.dataPath());
-              Serial.println("TYPE: " + firebaseData.dataType());
-              Serial.println("ETag: " + firebaseData.ETag());
-              Serial.println("------------------------------------");
-              Serial.println();
-            }
-            else
-            {
-              Serial.println("FAILED");
-              Serial.println("REASON: " + firebaseData.errorReason());
-              Serial.println("------------------------------------");
-              Serial.println();
-            }
+            // if (Firebase.setString(firebaseData, "/sensor/G2", output4State))
+            // {
+            //   Serial.println("PASSED");
+            //   Serial.println("PATH: " + firebaseData.dataPath());
+            //   Serial.println("TYPE: " + firebaseData.dataType());
+            //   Serial.println("ETag: " + firebaseData.ETag());
+            //   Serial.println("------------------------------------");
+            //   Serial.println();
+            // }
+            // else
+            // {
+            //   Serial.println("FAILED");
+            //   Serial.println("REASON: " + firebaseData.errorReason());
+            //   Serial.println("------------------------------------");
+            //   Serial.println();
+            // }
             
             // Break out of the while loop
             break;
@@ -277,7 +290,8 @@ void loop(){
     header = "";
     // Close the connection
     client.stop();
-    Serial.println("Client disconnected.");
-    Serial.println("");
+    // Serial.println("Client disconnected.");
+    // Serial.println("");
   }
+  delay(500);
 }
