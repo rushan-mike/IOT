@@ -41,7 +41,8 @@ float sensor1Value;
 float sensor2Value;
 
 //variables to store I2C data
-char readData;
+byte readDataBytes[2];
+int readData;
 int MQ2pin;
 
 // Current time
@@ -131,26 +132,39 @@ void loop(){
     Wire.beginTransmission(8); // transmit to device #8
     Wire.write(MQ2pin);        // sends one byte  
     Wire.endTransmission();    // stop transmitting
-    Serial.println(MQ2pin);
-    Serial.println("");
+    // Serial.println(MQ2pin);
+    // Serial.println("");
 
-    Wire.requestFrom(8, 2);    // request 6 bytes from peripheral device #8
+    Wire.requestFrom(8, 2);    // request 2 bytes from peripheral device #8
 
+    int i=0;
     while (Wire.available()) { // peripheral may send less than requested
-      readData += Wire.read(); // receive a byte as character
+      readDataBytes[i] = Wire.read(); // receive a byte as character
+      i++;
     }
+
+    // Serial.print(readDataBytes[0]);
+    // Serial.print("    ");
+    // Serial.print(readDataBytes[1]);
+    // Serial.println("");
+
+    readData = ((readDataBytes[0] << 8) & 0xFF00) + (readDataBytes[1] & 0xFF);
+    
+    // Serial.println(readData);
+    // Serial.println("");
 
     if (MQ2pin == 1){
       sensor1Value = readData;
-      Serial.println(sensor1Value);
-      Serial.println("");
+      // Serial.println(sensor1Value);
+      // Serial.println("");
     }
 
     if (MQ2pin == 2){
       sensor2Value = readData;
-      Serial.println(sensor2Value);
-      Serial.println("");
+      // Serial.println(sensor2Value);
+      // Serial.println("");
     }
+    delay(5000);
   }
 
   if(sensor1Value > 300 and output5offState == false)
@@ -175,8 +189,8 @@ void loop(){
     digitalWrite(output4, LOW);
   }
 
-  Firebase.setInt(firebaseData, "/value/G1", sensor1Value);
-  Firebase.setInt(firebaseData, "/value/G2", sensor2Value);
+ Firebase.setInt(firebaseData, "/value/G1", sensor1Value);
+ Firebase.setInt(firebaseData, "/value/G2", sensor2Value);
 
   WiFiClient client = server.available();   // Listen for incoming clients
 

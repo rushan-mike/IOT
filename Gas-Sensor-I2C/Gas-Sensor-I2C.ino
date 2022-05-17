@@ -7,7 +7,8 @@ float sensor1Value;  //variable to store sensor1 value
 float sensor2Value;  //variable to store sensor2 value
 
 //variables to store I2C data
-char writeData;
+byte writeDataBytes[2];
+int writeData;
 int MQ2pin;
 
 void setup()
@@ -47,7 +48,7 @@ void loop()
   }
   
   Serial.println("");
-  delay(2000); // wait 2s for next reading
+  // delay(2000); // wait 2s for next reading
 }
 
 void receiveEvent(int howMany)
@@ -56,19 +57,28 @@ void receiveEvent(int howMany)
   
   if (MQ2pin == 1){
     writeData = sensor1Value;
-    Serial.println(sensor1Value);
-    Serial.println("");
+    // Serial.println(sensor1Value);
+    // Serial.println("");
   }
 
   if (MQ2pin == 2){
     writeData = sensor2Value;
-    Serial.println(sensor2Value);
-    Serial.println("");
+    // Serial.println(sensor2Value);
+    // Serial.println("");
   }
 }
 
 void requestEvent() {
-  Wire.write(writeData); // respond with message of 2 bytes
-  Serial.println(writeData);
-  Serial.println("");
+
+  writeDataBytes[0] = (writeData >> 8) & 0xFF;
+  writeDataBytes[1] = (writeData >> 0) & 0xFF;
+
+  // Serial.print(writeDataBytes[0]);
+  // Serial.print("    ");
+  // Serial.print(writeDataBytes[1]);
+  // Serial.println("");
+
+  Wire.write(writeDataBytes,2); // respond with message of 2 bytes
+  // Serial.println(writeData);
+  // Serial.println("");
 }
