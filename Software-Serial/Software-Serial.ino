@@ -16,7 +16,7 @@ void setup()
   
   // set the data rate for the SoftwareSerial port
   // mySerial.begin(38400); // Bluetooth
-  mySerial.begin(9600);
+  mySerial.begin(9600); // GSM
 
   //Bluetooth test command
   mySerial.println("AT");

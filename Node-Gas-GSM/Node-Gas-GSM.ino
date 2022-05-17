@@ -4,6 +4,9 @@
 // Load Wire library
 #include <Wire.h>
 
+// Load SoftwareSerial library
+#include <SoftwareSerial.h>
+
 // Load Wi-Fi library
 #include <ESP8266WiFi.h>
 
@@ -45,6 +48,9 @@ byte readDataBytes[2];
 int readData;
 int MQ2pin;
 
+ //Define Software Serial hardware connections
+SoftwareSerial GSMSerial(3, 1, false, 128); //(rxPin, txPin, inverse_logic, buffer size)
+
 // Current time
 unsigned long currentTime = millis();
 // Previous time
@@ -72,6 +78,7 @@ FirebaseJson json;
 
 void setup() {
   Serial.begin(115200);
+  GSMSerial.begin(9600);
   // Initialize the output variables as outputs
   pinMode(output5, OUTPUT);
   pinMode(output4, OUTPUT);
@@ -195,7 +202,7 @@ void loop(){
   WiFiClient client = server.available();   // Listen for incoming clients
 
   if (client) {                             // If a new client connects,
-    Serial.println("New Client.");          // print a message out in the serial port
+    // Serial.println("New Client.");          // print a message out in the serial port
     String currentLine = "";                // make a String to hold incoming data from the client
     currentTime = millis();
     previousTime = currentTime;
@@ -203,7 +210,7 @@ void loop(){
       currentTime = millis();         
       if (client.available()) {             // if there's bytes to read from the client,
         char c = client.read();             // read a byte, then
-        Serial.write(c);                    // print it out the serial monitor
+        // Serial.write(c);                    // print it out the serial monitor
         header += c;
         if (c == '\n') {                    // if the byte is a newline character
           // if the current line is blank, you got two newline characters in a row.
@@ -218,22 +225,22 @@ void loop(){
             
             // turns the GPIOs on and off
             if (header.indexOf("GET /5/on") >= 0) {
-              Serial.println("GPIO 5 on");
+              // Serial.println("GPIO 5 on");
               output5State = "on";
               output5offState = false;
               digitalWrite(output5, HIGH);
             } else if (header.indexOf("GET /5/off") >= 0) {
-              Serial.println("GPIO 5 off");
+              // Serial.println("GPIO 5 off");
               output5State = "off";
               output5offState = true;
               digitalWrite(output5, LOW);
             } else if (header.indexOf("GET /4/on") >= 0) {
-              Serial.println("GPIO 4 on");
+              // Serial.println("GPIO 4 on");
               output4State = "on";
               output4offState = false;
               digitalWrite(output4, HIGH);
             } else if (header.indexOf("GET /4/off") >= 0) {
-              Serial.println("GPIO 4 off");
+              // Serial.println("GPIO 4 off");
               output4State = "off";
               output4offState = true;
               digitalWrite(output4, LOW);
@@ -325,7 +332,16 @@ void loop(){
     header = "";
     // Close the connection
     client.stop();
-    Serial.println("Client disconnected.");
-    Serial.println("");
+    // Serial.println("Client disconnected.");
+    // Serial.println("");
+  }
+
+  while (Serial.available()) 
+  {
+    GSMSerial.write(Serial.read());//Forward what Serial received to Software Serial Port
+  }
+  while(GSMSerial.available()) 
+  {
+    Serial.write(GSMSerial.read());//Forward what Software Serial received to Serial Port
   }
 }
