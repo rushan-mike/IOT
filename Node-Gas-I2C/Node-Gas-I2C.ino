@@ -164,7 +164,7 @@ void loop(){
       // Serial.println(sensor2Value);
       // Serial.println("");
     }
-    delay(5000);
+    delay(500);
   }
 
   if(sensor1Value > 300 and output5offState == false)
