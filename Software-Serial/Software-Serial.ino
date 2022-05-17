@@ -2,15 +2,23 @@
 
 // SoftwareSerial mySerial(7, 8); // RX, TX
 SoftwareSerial mySerial(3, 2); // RX, TX
+// SoftwareSerial mySerial(3, 1, false, 128); //(rxPin, txPin, inverse_logic, buffer size)
 
 void setup()
 {
+  //GPIO 1 (TX) swap the pin to a TX.
+  //pinMode(1, FUNCTION_0); 
+  //GPIO 3 (RX) swap the pin to a RX.
+  //pinMode(3, FUNCTION_0);
+  
   // Open serial communications and wait for port to open:
   // Serial.begin(9600);
-  Serial.begin(38400);
-  while (!Serial) {
-    ; // wait for serial port to connect. Needed for Native USB only
-  }
+  // Serial.begin(38400);
+  Serial.begin(115200);
+  
+   while (!Serial) {
+     ; // wait for serial port to connect. Needed for Native USB only
+   }
 
   Serial.println("TEST");
   

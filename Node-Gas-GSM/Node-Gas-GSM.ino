@@ -51,6 +51,9 @@ int MQ2pin;
  //Define Software Serial hardware connections
 SoftwareSerial GSMSerial(3, 1, false, 128); //(rxPin, txPin, inverse_logic, buffer size)
 
+// Variable to store the GSM response
+String msg;
+
 // Current time
 unsigned long currentTime = millis();
 // Previous time
@@ -131,6 +134,9 @@ void setup() {
 
   Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
   Firebase.reconnectWiFi(true);
+
+  GSMSerial.println("AT"); //Once the handshake test is successful, it will send back OK
+  updateSerial();
 }
 
 void loop(){
@@ -335,7 +341,13 @@ void loop(){
     // Serial.println("Client disconnected.");
     // Serial.println("");
   }
+  updateSerial();
+}
 
+
+void updateSerial()
+{
+  delay(500);
   while (Serial.available()) 
   {
     GSMSerial.write(Serial.read());//Forward what Serial received to Software Serial Port
